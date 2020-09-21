@@ -33,6 +33,7 @@
 
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--audioin", "off" ],
+        ["modifyvm", "{{.Name}}", "--firmware", "efi"],
         ["modifyvm", "{{.Name}}", "--clipboard-mode", "bidirectional" ],
         ["modifyvm", "{{.Name}}", "--graphicscontroller", "vmsvga" ],
         ["modifyvm", "{{.Name}}", "--mouse", "usbtablet"],
@@ -64,14 +65,17 @@
       "guest_os_type": "Ubuntu_64",
       "boot_wait": "5s",
       "boot_command": [
-        "<esc><wait><esc><wait>",
-        "/casper/vmlinuz",
-
+        "<esc><wait>",
+        "linux /casper/vmlinuz",
         " auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/oem-preseed.cfg",
         " automatic-ubiquity",
         " debug-ubiquity",
         " keymap=us",
-        " boot=casper initrd=/casper/initrd.lz quiet noprompt splash --",
+        " boot=casper quiet noprompt splash --",
+        "<enter>",
+        "initrd /casper/initrd.lz",
+        "<enter>",
+        "boot",
         "<enter>"
       ],
 
